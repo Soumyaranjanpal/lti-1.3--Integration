@@ -72,6 +72,13 @@ export default function Home() {
     return ltik
   }
 
+  const getID = () => {
+    const searchParams = new URLSearchParams(window.location.search)
+    const assignmentID = searchParams.get('id');
+    if (!assignmentID) throw new Error('Missing Assignment ID.')
+    return assignmentID
+  }
+
   useEffect(() => {
     const getInfo = async () => {
       try {
@@ -89,11 +96,10 @@ export default function Home() {
     <Container component='main' maxWidth='sm'>
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography variant='h3'>Java Programming Quiz</Typography>
-
-        <Quiz />
+        <Typography variant='h3'>Assignment Questions will be shown here</Typography>
+        <Typography variant='h4'>Assignment ID: {getID()}</Typography>
         
-        <Typography variant='body1'>Other Services from LTI:</Typography>
+        <Typography variant='body1'>Test Services Here:</Typography>
         <Grid item xs >
           <Tooltip title='Grades Service' aria-label='grades'>
             <Link to={{

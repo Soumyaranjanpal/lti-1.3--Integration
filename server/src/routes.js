@@ -68,14 +68,16 @@ router.get('/members', async (req, res) => {
 // Deep linking route
 router.post('/deeplink', async (req, res) => {
   try {
-    const resource = req.body
+    const resource = req.body;
+
+    console.log(resource);
 
     const items = {
       type: 'ltiResourceLink',
-      title: 'Ltijs Demo',
+      title: 'WeLE Assignment 1',
+      url: `https://8bb3-103-191-199-59.ngrok.io?id=${resource.id}`,
       custom: {
-        name: resource.name,
-        value: resource.value
+        resource: 'resource1'
       }
     }
 

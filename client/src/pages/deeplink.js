@@ -3,8 +3,11 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+import MUIDataTable from 'mui-datatables';
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 
-import MUIDataTable from 'mui-datatables'
+
 import Fab from '@material-ui/core/Fab'
 import ky from 'ky'
 import NavigationIcon from '@material-ui/icons/Navigation'
@@ -82,11 +85,8 @@ export default function App () {
   // Submits resource to deep linking endpoint
   const submit = async () => {
     try {
-      if (resource === false) {
-        errorPrompt('Please select a resource.')
-        return
-      }
-      const form = await ky.post('/deeplink', { credentials: 'include', json: dataset[resource], headers: { Authorization: 'Bearer ' + getLtik() } }).text()
+    
+      const form = await ky.post('/deeplink', { credentials: 'include', json:{id:id}, headers: { Authorization: 'Bearer ' + getLtik() } }).text()
       $('body').append(form)
     } catch (err) {
       console.log(err)
@@ -94,54 +94,18 @@ export default function App () {
     }
   }
 
-  // Configuring data table
-  const columns = [
-    {
-      name: 'name',
-      label: 'Name'
-    },
-    {
-      name: 'value',
-      label: 'Value'
-    }
-  ]
 
-  const options = {
-    filterType: 'checkbox',
-    selectableRows: 'single',
-    disableToolbarSelect: true,
-    download: false,
-    print: false,
-    searchOpen: false,
-    search: false,
-    viewColumns: false,
-    filter: false,
-    selectableRowsOnClick: true,
-    onRowsSelect: (selResource, allRows) => { setResource(selResource[0].dataIndex); setSelected(allRows.map(row => row.dataIndex)) },
-    rowsSelected: selected,
-    rowsPerPage: 5,
-    responsive: 'scrollFullHeight'
-  }
+
+  const [id,setID]=useState("");
 
   return (
     <Container component='main' maxWidth='lg'>
       <CssBaseline />
       <div className={classes.paper}>
         <Grid container>
-          <Grid item xs={12} className={classes.table}>
-            <MUIDataTable
-              title='Example custom resources:'
-              data={dataset}
-              columns={columns}
-              options={options}
-            />
-            <Grid item xs className={classes.btnDiv}>
-              <Fab variant='extended' color='primary' aria-label='add' className={classes.fab} onClick={submit}>
-                <NavigationIcon className={classes.extendedIcon} />
-                Submit
-              </Fab>
-            </Grid>
-          </Grid>
+         <Typography  variant="h4">Create Your Assignment Here. It will return create the assignment and will return you the assignment ID.</Typography>
+         <input placeholder='Enter ID' value={id} onChange={(event)=>setID(event.target.value)}></input><br></br>
+         <Button onClick={submit}>Submit</Button>
         </Grid>
       </div>
       {/* <Box mt={8}>

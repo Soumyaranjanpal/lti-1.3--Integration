@@ -26,6 +26,7 @@ lti.setup(process.env.LTI_KEY,
 
 // When receiving successful LTI launch redirects to app
 lti.onConnect(async (token, req, res) => {
+  console.log(req);
   return res.sendFile(path.join(__dirname, './public/index.html'))
   // return lti.redirect(res, `http://localhost:${process.env.CLIENTPORT}`);
 })
